@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# AUTHOR: Joe Langlands.
+#
+# $Id$
+# elvis: protondb	-- Search Protondb
+# DESC: Search protondb for game compatabilities.
+. surfraw || exit 1
+
+w3_config_hook () {
+	def SURFRAW_protondb_protocol	"https"
+}
+
+w3_usage_hook () {
+	cat <<EOF
+Usage: $w3_argv0 [search words]...
+Description:
+  Search protondb.com for game compatabilities.
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+
+escaped_args=`w3_url_of_arg $w3_args`
+w3_browse_url "${SURFRAW_protondb_protocol}://www.protondb.com/search?q=${escaped_args}"
